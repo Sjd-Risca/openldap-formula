@@ -15,3 +15,13 @@ ldap-server:
   service.running:
     - name: {{ openldap.service }}
     - enable: True
+
+ldap-server-default:
+  file.managed:
+    - name: /etc/default/slapd
+    - source: salt://openldap/files/default.conf
+    - user: root
+    - group: root
+    - mode: 644
+    - watch_in:
+      - service: ldap-server
