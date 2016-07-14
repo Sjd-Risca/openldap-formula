@@ -1,4 +1,4 @@
-{% set openldap = salt['grains.filter_by']({
+{% set openldap_options = salt['grains.filter_by']({
     'default': {
         'client_config': '/etc/ldap.conf',
         'client_pkg': 'openldap',
@@ -68,3 +68,11 @@
         'su_group': 'root',
     },
 }, grain='os_family', merge=salt['pillar.get']('openldap:lookup')) %}
+
+{## Merge with pillar ##}
+{% set openldap = salt['pillar.get'](
+   'openldap',
+    default=openldap_options,
+    merge=True) 
+%}
+~ 
